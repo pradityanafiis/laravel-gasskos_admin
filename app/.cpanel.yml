@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/pradity1/public_html/penginapan-admin/
+    - /bin/cp -R * $DEPLOYPATH
