@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Auth;
 use Session;
+use App\Penginapan;
 
 class PenginapanController extends Controller
 {
@@ -20,7 +21,7 @@ class PenginapanController extends Controller
     
     public function index()
     {
-        try {
+        /*try {
             $request = $this->client->get('http://localhost/penginapan-api/api/penginapan', [
                 'query' => ['id_users' => Auth::id()]
             ]);
@@ -31,6 +32,9 @@ class PenginapanController extends Controller
         } catch (\GuzzleHttp\Exception\ClientException $e) {
             return view('penginapan.penginapan', ['penginapan' => null]);
         }
+        */
+        $penginapan = Penginapan::where('id_users', Auth::id())->get();
+        return view('penginapan.penginapan', ['penginapan' => $penginapan]);
     }
 
     public function showTambah()
@@ -40,6 +44,7 @@ class PenginapanController extends Controller
 
     public function store(Request $request)
     {
+        /*
         $this->validate($request, [
             'nama' => 'required|max:35',
             'alamat' => 'required',
@@ -66,10 +71,30 @@ class PenginapanController extends Controller
             Session::flash('failed','Terjadi kesalahan, penginapan belum ditambahkan.');
             return redirect('/penginapan/lihat');
         }
+        */
+
+        $this->validate($request, [
+            'nama' => 'required|max:35',
+            'alamat' => 'required',
+            'telepon' => 'required|numeric'
+        ]);
+
+        $data = array(
+            'id_users' => Auth::id(),
+            'nama' => $request->nama,
+            'alamat' => $request->alamat,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+            'telepon' => $request->telepon
+        );
+        Penginapan::create($data);
+        Session::flash('success','Penginapan telah ditambahkan.');
+        return redirect('/penginapan/lihat');
     }
 
     public function delete($id_penginapan)
     {
+        /*
         try {
             $request = $this->client->delete('http://localhost/penginapan-api/api/penginapan', [
                 'form_params' => [
@@ -83,10 +108,15 @@ class PenginapanController extends Controller
             Session::flash('failed','Terjadi kesalahan, penginapan belum dihapus.');
             return redirect('/penginapan/lihat');
         }
+        */
+        Penginapan::where('id_penginapan', $id_penginapan)->delete();
+        Session::flash('success','Penginapan telah dihapus.');
+        return redirect('/penginapan/lihat');
     }
 
     public function showUbah($id_penginapan)
     {
+        /*
         try {
             $request = $this->client->get('http://localhost/penginapan-api/api/penginapan', [
                 'query' => ['id_penginapan' => $id_penginapan]
@@ -98,10 +128,15 @@ class PenginapanController extends Controller
         } catch (\GuzzleHttp\Exception\ClientException $e) {
             return redirect('/penginapan/lihat');
         }
+        */
+
+        $penginapan = Penginapan::find($id_penginapan);
+        return view('penginapan.ubah_penginapan', ['penginapan' => $penginapan]);
     }
 
     public function update($id_penginapan, Request $request)
     {
+        /*
         $this->validate($request, [
             'nama' => 'required|max:35',
             'alamat' => 'required',
@@ -128,5 +163,22 @@ class PenginapanController extends Controller
             Session::flash('failed','Terjadi kesalahan, penginapan belum diubah.');
             return redirect('/penginapan/lihat');
         }
+        */
+
+        $this->validate($request, [
+            'nama' => 'required|max:35',
+            'alamat' => 'required',
+            'telepon' => 'required|numeric'
+        ]);
+
+        $data = array(
+            'nama' => $request->nama,
+            'alamat' => $request->alamat,
+            'telepon' => $request->telepon,
+            'id_penginapan' => $id_penginapan
+        );
+        $penginapan = Penginapan::where('id_penginapan', $id_penginapan)->update($data);
+        Session::flash('success','Penginapan telah diubah.');
+        return redirect('/penginapan/lihat');
     }
 }
