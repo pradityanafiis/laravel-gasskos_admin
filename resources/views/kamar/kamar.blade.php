@@ -46,14 +46,14 @@
             @if($kamar != null) 
                 @foreach($kamar as $data)
                 <tr>
-                    <td>{{ $data['nama'] }}</td>
-                    <td>{{ $data['tipe'] }}</td>
-                    <td>{{ $data['harga'] }}</td>
-                    <td>{{ $data['fasilitas'] }}</td>
-                    <td>{{ $data['kapasitas'] }}</td>
+                    <td>{{ $data->nama }}</td>
+                    <td>{{ $data->tipe }}</td>
+                    <td>{{ $data->harga }}</td>
+                    <td>{{ $data->fasilitas }}</td>
+                    <td>{{ $data->kapasitas }}</td>
                     <td>
-                        <a class="btn btn-danger btn-sm" href="/kamar/hapus/{{ $data['id_kamar'] }}"><i class="far fa-trash-alt"></i></a>
-                        <a class="btn btn-success btn-sm" href="/kamar/ubah/{{ $data['id_kamar'] }}"><i class="far fa-edit"></i></a>
+                        <a class="btn btn-danger btn-sm" href="/kamar/hapus/{{ $data->id_kamar }}"><i class="far fa-trash-alt"></i></a>
+                        <a class="btn btn-success btn-sm" href="/kamar/ubah/{{ $data->id_kamar }}"><i class="far fa-edit"></i></a>
                     </td>
                 </tr>
                 @endforeach

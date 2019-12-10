@@ -13,10 +13,14 @@ class Penginapan extends Model
     ];
 
     public function user(){
-        return $this->belongsTo('App/User');
+        return $this->belongsTo('App\User');
     }
 
     public function kamar(){
-        return $this->hasMany('App/Kamar');
+        return $this->hasMany('App\Kamar');
+    }
+
+    public function fasilitas(){
+        return $this->belongsToMany('App\MasterFasilitas');
     }
 }

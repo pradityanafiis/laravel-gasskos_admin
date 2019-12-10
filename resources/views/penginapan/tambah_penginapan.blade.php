@@ -57,26 +57,12 @@
 
         <div class="form-group">
             <label>Fasilitas Penginapan</label>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox">
-                <label class="form-check-label">Fasilitas 1</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox">
-                <label class="form-check-label">Fasilitas 2</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox">
-                <label class="form-check-label">Fasilitas 3</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox">
-                <label class="form-check-label">Fasilitas 4</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox">
-                <label class="form-check-label">Fasilitas 5</label>
-            </div>
+            @foreach($fasilitas as $data)
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="fasilitas[]" value="{{ $data->id_fasilitas }}">
+                    <label class="form-check-label">{{ $data->nama }}</label>
+                </div>
+            @endforeach
         </div>
     </div>
 
