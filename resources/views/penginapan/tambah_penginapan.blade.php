@@ -9,67 +9,91 @@
 @endsection
 
 @section('main_content')
-<div class="card card-primary">
-    <form method="POST" action="/penginapan/store">
-    {{ csrf_field() }}
-    <div class="card-body">
-        <div class="form-group">
-            <label>Nama Penginapan</label>
-            <input type="text" class="form-control" name="nama" value="{{ old('nama') }}" required autofocus>
+<div class="row">
+    <div class="col-8">
+        <div class="card card-primary">
+            <form method="POST" action="/penginapan/store" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <div class="card-body">
+                <div class="form-group">
+                    <label>Nama Penginapan</label>
+                    <input type="text" class="form-control" name="nama" value="{{ old('nama') }}" required autofocus>
 
-            @if($errors->has('nama'))
-                <div class="text-danger">{{ $errors->first('nama')}}</div>
-            @endif
-        </div>
-        
-        <div class="form-group">
-            <label>Alamat Penginapan</label>
-            <textarea class="form-control" name="alamat" required>{{ old('alamat') }}</textarea>
-
-            @if($errors->has('alamat'))
-                <div class="text-danger">{{ $errors->first('alamat')}}</div>
-            @endif
-        </div>
-
-        <div class="form-group">
-            <label>Map</label>
-            <div id='map' style='width: 100%; height: 300px;'></div>
-            <div class="row mt-2">
-                <div class="col-6">
-                    <label>Latitude</label>
-                    <input type="text" class="form-control" id="latitude" name="latitude" readonly>
+                    @if($errors->has('nama'))
+                        <div class="text-danger">{{ $errors->first('nama')}}</div>
+                    @endif
                 </div>
-                <div class="col-6">
-                    <label>Longitude</label>
-                    <input type="text" class="form-control" id="longitude" name="longitude" readonly>
+                
+                <div class="form-group">
+                    <label>Alamat Penginapan</label>
+                    <textarea class="form-control" name="alamat" required>{{ old('alamat') }}</textarea>
+
+                    @if($errors->has('alamat'))
+                        <div class="text-danger">{{ $errors->first('alamat') }}</div>
+                    @endif
+                </div>
+
+                <div class="form-group">
+                    <label>Map</label>
+                    <div id='map' style='width: 100%; height: 300px;'></div>
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <label>Latitude</label>
+                            <input type="text" class="form-control" id="latitude" name="latitude" readonly>
+                        </div>
+                        <div class="col-6">
+                            <label>Longitude</label>
+                            <input type="text" class="form-control" id="longitude" name="longitude" readonly>
+                        </div>
+
+                        @if($errors->has('latitude'))
+                            <div class="text-danger">{{ $errors->first('latitude') }}</div>
+                        @endif
+                        @if($errors->has('longitude'))
+                            <div class="text-danger">{{ $errors->first('longitude') }}</div>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Nomor Telepon</label>
+                    <input type="text" class="form-control" name="telepon" value="{{ old('telepon') }}" required>
+
+                    @if($errors->has('telepon'))
+                        <div class="text-danger">{{ $errors->first('telepon')}}</div>
+                    @endif
+                </div>
+
+                <div class="form-group">
+                    <label>Foto Penginapan</label>
+                    <input type="file" class="form-control" name="foto[]" accept="image/*" multiple required>
+
+                    @if($errors->has('foto'))
+                        <div class="text-danger">{{ $errors->first('foto')}}</div>
+                    @endif
+                </div>
+
+                <div class="form-group">
+                    <label>Fasilitas Penginapan</label>
+                    @foreach($masterfasilitas as $data)
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="fasilitas[]" value="{{ $data->id_fasilitas }}">
+                            <label class="form-check-label">{{ $data->nama }}</label>
+                        </div>
+                    @endforeach
+
+                    @if($errors->has('fasilitas'))
+                        <div class="text-danger">{{ $errors->first('fasilitas')}}</div>
+                    @endif
                 </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label>Nomor Telepon</label>
-            <input type="text" class="form-control" name="telepon" value="{{ old('telepon') }}" required>
-
-            @if($errors->has('telepon'))
-                <div class="text-danger">{{ $errors->first('telepon')}}</div>
-            @endif
-        </div>
-
-        <div class="form-group">
-            <label>Fasilitas Penginapan</label>
-            @foreach($fasilitas as $data)
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="fasilitas[]" value="{{ $data->id_fasilitas }}">
-                    <label class="form-check-label">{{ $data->nama }}</label>
-                </div>
-            @endforeach
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
         </div>
     </div>
-
-    <div class="card-footer">
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
-    </form>
 </div>
 @endsection
 

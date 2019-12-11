@@ -4,12 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Kamar extends Model
+class FotoPenginapan extends Model
 {
-    protected $table = 'kamar';
-    protected $primaryKey = 'id_kamar';
+    protected $table = 'foto_penginapan';
+    protected $primaryKey = 'id_foto';
     protected $fillable = [
-        'id_penginapan', 'tipe', 'harga', 'kapasitas', 'created_at', 'updated_at'
+        'id_penginapan', 'path'
     ];
 
     public function penginapan(){

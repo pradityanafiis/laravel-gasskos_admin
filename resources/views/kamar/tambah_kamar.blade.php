@@ -44,14 +44,6 @@
             @endif
         </div>
         <div class="form-group">
-            <label>Fasilitas</label>
-            <textarea class="form-control" name="fasilitas" required>{{ old('fasilitas') }}</textarea>
-
-            @if($errors->has('fasilitas'))
-                <div class="text-danger">{{ $errors->first('fasilitas')}}</div>
-            @endif
-        </div>
-        <div class="form-group">
             <label>Kapasitas</label>
             <input type="number" class="form-control" name="kapasitas" value="{{ old('kapasitas') }}" min="1" required>
 

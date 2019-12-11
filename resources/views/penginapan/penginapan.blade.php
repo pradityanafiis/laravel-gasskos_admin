@@ -34,8 +34,6 @@
         <thead>
             <tr>
                 <th>Nama Penginapan</th>
-                <th>Alamat Penginapan</th>
-                <th>Nomor Telepon</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -45,8 +43,6 @@
                 @foreach($penginapan as $data)
                 <tr>
                     <td>{{ $data->nama }}</td>
-                    <td>{{ $data->alamat }}</td>
-                    <td>{{ $data->telepon }}</td>
                     <td>
                         <a class="btn btn-danger btn-sm" href="/penginapan/hapus/{{ $data->id_penginapan }}"><i class="far fa-trash-alt"></i></a>
                         <a class="btn btn-success btn-sm" href="/penginapan/ubah/{{ $data->id_penginapan }}"><i class="far fa-edit"></i></a>

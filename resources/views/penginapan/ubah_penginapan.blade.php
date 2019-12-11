@@ -38,6 +38,17 @@
                 <div class="text-danger">{{ $errors->first('telepon')}}</div>
             @endif
         </div>
+        <div class="form-group">
+            <label>Fasilitas Penginapan</label>
+            @foreach($masterfasilitas as $data)
+                
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="fasilitas[]" value="{{ $data->id_fasilitas }}" @foreach ($fasilitas as $available) @if($data->id_fasilitas == $available->id_fasilitas ) checked @endif @endforeach>
+                        <label class="form-check-label">{{ $data->nama }}</label>
+                    </div>
+                
+            @endforeach
+        </div>
     </div>
 
     <div class="card-footer">

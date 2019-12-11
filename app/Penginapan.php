@@ -13,7 +13,7 @@ class Penginapan extends Model
     ];
 
     public function user(){
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User', 'id_users');
     }
 
     public function kamar(){
@@ -22,5 +22,9 @@ class Penginapan extends Model
 
     public function fasilitas(){
         return $this->belongsToMany('App\MasterFasilitas');
+    }
+
+    public function fotoPenginapan(){
+        return $this->hasMany('App\FotoPenginapan');
     }
 }
