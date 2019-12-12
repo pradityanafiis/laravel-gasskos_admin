@@ -14,6 +14,7 @@ use App\FotoPenginapan;
 
 class PenginapanController extends Controller
 {
+
     public $path;
 
     public function __construct()
@@ -21,17 +22,15 @@ class PenginapanController extends Controller
         $this->middleware('auth');
         $this->path = public_path('foto_penginapan');
     }
-    
+
     public function index()
     {
-        $penginapan = Penginapan::where('id_users', Auth::id())->get();
-        return view('penginapan.penginapan', ['penginapan' => $penginapan]);
+        return view('penginapan.penginapan', ['penginapan' => Penginapan::where('id_users', Auth::id())->get()]);
     }
 
-    public function showTambah()
+    public function create()
     {
-        $masterfasilitas = MasterFasilitas::all();
-        return view('penginapan.tambah_penginapan', ['masterfasilitas' => $masterfasilitas]);
+        return view('penginapan.tambah_penginapan', ['masterfasilitas' => MasterFasilitas::all()]);
     }
 
     public function store(Request $request)
@@ -56,51 +55,38 @@ class PenginapanController extends Controller
         );
         
         $penginapan = Penginapan::create($data);
-        $lastIdPenginapan = $penginapan->id_penginapan;
         
         //INSERT FASILITAS (LOOP)
         foreach ($request->fasilitas as $fasilitas) {
-            Fasilitas::create(['id_penginapan' => $lastIdPenginapan, 'id_fasilitas' => $fasilitas]);
+            Fasilitas::create(['id_penginapan' => $penginapan->id_penginapan, 'id_fasilitas' => $fasilitas]);
         }
         
         //INSERT FOTO (LOOP)
         foreach ($request->foto as $foto) {
-            $namaFoto = $lastIdPenginapan . '_' . uniqid() . '.' . $foto->getClientOriginalExtension();
+            $namaFoto = $penginapan->id_penginapan . '_' . uniqid() . '.' . $foto->getClientOriginalExtension();
             $foto->move($this->path, $namaFoto);
-            FotoPenginapan::create(['id_penginapan' => $lastIdPenginapan, 'path' => $namaFoto]);
+            FotoPenginapan::create(['id_penginapan' => $penginapan->id_penginapan, 'path' => $namaFoto]);
         }
-
-        Session::flash('success', "Penginapan telah ditambahkan.");
-        return redirect('/penginapan/lihat');
+        
+        return redirect()->route('penginapan.index')->with('status', "Penginapan $penginapan->nama telah ditambahkan");
     }
 
-    public function delete($id_penginapan)
+    public function show($id)
     {
-        Kamar::where('id_penginapan', $id_penginapan)->delete();
-        Fasilitas::where('id_penginapan', $id_penginapan)->delete();
-        $foto = FotoPenginapan::where('id_penginapan', $id_penginapan)->get();
-        if ($foto != null) {
-            foreach ($foto as $data) {
-                File::delete($this->path . '\\' . $data['path']);
-            }
-            FotoPenginapan::where('id_penginapan', $id_penginapan)->delete();
-        }
-        Penginapan::where('id_penginapan', $id_penginapan)->delete();
-        Session::flash('success', "Penginapan dan kamar telah dihapus.");
-        return redirect('/penginapan/lihat');
+        return view('pengnapan.detail_penginapan', ['penginapan' => Penginapan::where('id_penginapan', $id)->get()]);  
     }
 
-    public function showUbah($id_penginapan)
+    public function edit($id)
     {
         $data = ([
-            'penginapan' => Penginapan::find($id_penginapan),
-            'fasilitas' => Fasilitas::where('id_penginapan', $id_penginapan)->get(),
+            'penginapan' => Penginapan::find($id),
+            'fasilitas' => Fasilitas::where('id_penginapan', $id)->get(),
             'masterfasilitas' => MasterFasilitas::all()
         ]);        
         return view('penginapan.ubah_penginapan', $data);
     }
 
-    public function update($id_penginapan, Request $request)
+    public function update(Request $request, $id)
     {
         $this->validate($request, [
             'nama' => 'required|max:35',
@@ -112,15 +98,29 @@ class PenginapanController extends Controller
             'nama' => $request->nama,
             'alamat' => $request->alamat,
             'telepon' => $request->telepon,
-            'id_penginapan' => $id_penginapan
+            'id_penginapan' => $id
         );
         
-        Penginapan::where('id_penginapan', $id_penginapan)->update($data);
-        Fasilitas::where('id_penginapan', $id_penginapan)->delete();
+        Penginapan::where('id_penginapan', $id)->update($data);
+        Fasilitas::where('id_penginapan', $id)->delete();
         foreach ($request->fasilitas as $fasilitas) {
-            Fasilitas::create(['id_penginapan' => $id_penginapan, 'id_fasilitas' => $fasilitas]);
+            Fasilitas::create(['id_penginapan' => $id, 'id_fasilitas' => $fasilitas]);
         }
-        Session::flash('success','Penginapan telah diubah.');
-        return redirect('/penginapan/lihat');
+        return redirect()->route('penginapan.index')->with('status', "Penginapan telah diubah");
+    }
+
+    public function destroy($id)
+    {
+        Kamar::where('id_penginapan', $id)->delete();
+        Fasilitas::where('id_penginapan', $id)->delete();
+        $foto = FotoPenginapan::where('id_penginapan', $id)->get();
+        if ($foto != null) {
+            foreach ($foto as $data) {
+                File::delete($this->path . '\\' . $data['path']);
+            }
+            FotoPenginapan::where('id_penginapan', $id)->delete();
+        }
+        Penginapan::where('id_penginapan', $id)->delete();
+        return redirect()->route('penginapan.index')->with('status', "Penginapan dan kamar telah dihapus");
     }
 }

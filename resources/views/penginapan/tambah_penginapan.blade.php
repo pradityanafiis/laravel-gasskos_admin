@@ -9,10 +9,10 @@
 @endsection
 
 @section('main_content')
-<div class="row">
+<div class="row justify-content-center">
     <div class="col-8">
         <div class="card card-primary">
-            <form method="POST" action="/penginapan/store" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('penginapan.store') }}" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="card-body">
                 <div class="form-group">

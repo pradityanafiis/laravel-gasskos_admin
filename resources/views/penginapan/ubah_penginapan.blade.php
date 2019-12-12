@@ -10,7 +10,7 @@
 
 @section('main_content')
 <div class="card card-primary">
-    <form method="POST" action="/penginapan/update/{{ $penginapan['id_penginapan'] }}">
+    <form method="POST" action="{{ route('penginapan.update', [$penginapan['id_penginapan']]) }}">
     {{ csrf_field() }}
     {{ method_field('PUT') }}
     <div class="card-body">

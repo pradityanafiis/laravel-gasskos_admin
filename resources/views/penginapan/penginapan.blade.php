@@ -10,18 +10,9 @@
 @section('main_content')
     <div class="row justify-content-center">
         <div class="col-6">
-            @if ($message = Session::get('success'))
+            @if (session('status'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>Berhasil!</strong> {{ $message }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif
-
-            @if ($message = Session::get('failed'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Gagal!</strong> {{ $message }}
+                    <strong>Berhasil!</strong> {{ session('status') }}
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -44,8 +35,13 @@
                 <tr>
                     <td>{{ $data->nama }}</td>
                     <td>
-                        <a class="btn btn-danger btn-sm" href="/penginapan/hapus/{{ $data->id_penginapan }}"><i class="far fa-trash-alt"></i></a>
-                        <a class="btn btn-success btn-sm" href="/penginapan/ubah/{{ $data->id_penginapan }}"><i class="far fa-edit"></i></a>
+                        <a class="btn btn-primary btn-sm" href="/penginapan/{{ $data->id_penginapan }}"><i class="far fa-eye"></i></a>
+                        <form onsubmit="return confirm('Hapus penginapan beserta seluruh kamarnya?')" class="d-inline" action="{{route('penginapan.destroy', [$data->id_penginapan])}}" method="POST">
+                            @csrf
+                            {{ method_field('DELETE') }}
+                            <button type="submit" value="Delete" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></button>
+                        </form>
+                        <a class="btn btn-success btn-sm" href="{{route('penginapan.edit', [$data->id_penginapan])}}"><i class="far fa-edit"></i></a>
                     </td>
                 </tr>
                 @endforeach

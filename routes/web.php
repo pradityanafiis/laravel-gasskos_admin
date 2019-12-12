@@ -15,22 +15,17 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::group(['middleware' => ['auth']], function(){
-    //ROUTES PENGINAPAN
-    Route::get('/penginapan/lihat', 'PenginapanController@index');
-    Route::get('/penginapan/tambah', 'PenginapanController@showTambah');
-    Route::post('/penginapan/store', 'PenginapanController@store');
-    Route::get('/penginapan/hapus/{id}', 'PenginapanController@delete');
-    Route::get('/penginapan/ubah/{id}', 'PenginapanController@showUbah');
-    Route::put('/penginapan/update/{id}', 'PenginapanController@update');
+Route::group(['middleware' => 'auth'], function(){
+    Route::resource("penginapan", "PenginapanController");
+});
 
-    //ROUTES KAMAR
-    Route::get('/kamar/lihat', 'KamarController@index');
-    Route::get('/kamar/tambah', 'KamarController@showTambah');
-    Route::post('/kamar/store', 'KamarController@store');
-    Route::get('/kamar/hapus/{id}', 'KamarController@delete');
-    Route::get('/kamar/ubah/{id}', 'KamarController@showUbah');
-    Route::put('/kamar/update/{id}', 'KamarController@update');
+Route::group(['prefix' => 'kamar/', 'middleware' => 'auth'], function(){
+    Route::get('lihat', 'KamarController@index');
+    Route::get('tambah', 'KamarController@showTambah');
+    Route::post('store', 'KamarController@store');
+    Route::get('hapus/{id}', 'KamarController@delete');
+    Route::get('ubah/{id}', 'KamarController@showUbah');
+    Route::put('update/{id}', 'KamarController@update');
 });
 
 Auth::routes();

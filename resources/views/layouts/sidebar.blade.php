@@ -4,19 +4,19 @@
     </a>
 </li>
 
-<li class="nav-item has-treeview {{ (request()->is('penginapan/*')) ? 'menu-open' : '' }}">
-    <a href="#" class="nav-link {{ (request()->is('penginapan/*')) ? 'active' : '' }}">
+<li class="nav-item has-treeview {{ (request()->is('penginapan') || request()->is('penginapan/*')) ? 'menu-open' : '' }}">
+    <a href="#" class="nav-link {{ (request()->is('penginapan') || request()->is('penginapan/*')) ? 'active' : '' }}">
         <i class="nav-icon fas fa-hotel"></i>
         <p>Penginapan<i class="right fas fa-angle-left"></i></p>
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-        <a href="/penginapan/lihat" class="nav-link {{ (request()->is('penginapan/lihat')) ? 'active' : '' }}">
+        <a href="{{ route('penginapan.index') }}" class="nav-link {{ (request()->is('penginapan')) ? 'active' : '' }}">
             <i class="far fa-circle nav-icon"></i><p>Lihat Penginapan</p>
         </a>
         </li>
         <li class="nav-item">
-        <a href="/penginapan/tambah" class="nav-link {{ (request()->is('penginapan/tambah')) ? 'active' : '' }}">
+        <a href="{{ route('penginapan.create') }}" class="nav-link {{ (request()->is('penginapan/create')) ? 'active' : '' }}">
             <i class="far fa-circle nav-icon"></i><p>Tambah Penginapan</p>
         </a>
         </li>
