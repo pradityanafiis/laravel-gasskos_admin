@@ -4,12 +4,10 @@
 
 @section('main_content')
 <div class="row justify-content-center">
-    <div class="col-md-7">
-        <div class="alert alert-primary alert-dismissible fade show" role="alert">
-            <strong>Selamat datang {{ Auth::user()->name }}!</strong> Anda berhasil login.
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+    <div class="col-md-6">
+        <div class="alert alert-dark" role="alert">
+            <h4 class="alert-heading"><strong>{{ Auth::user()->name }},</strong></h4>
+            Selamat datang! Anda berhasil login.
         </div>
     </div>
 </div>

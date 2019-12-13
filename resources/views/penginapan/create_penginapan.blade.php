@@ -10,14 +10,33 @@
 
 @section('main_content')
 <div class="row justify-content-center">
-    <div class="col-8">
+    <div class="col-md-8">
         <div class="card card-primary">
             <form method="POST" action="{{ route('penginapan.store') }}" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="card-body">
                 <div class="form-group">
+                    <label>Gender Penginapan</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gender" value="Pria">
+                        <label class="form-check-label">Pria</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gender" value="Wanita">
+                        <label class="form-check-label">Wanita</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gender" value="Campur">
+                        <label class="form-check-label">Campur (Pria & Wanita)</label>
+                    </div>
+
+                    @if($errors->has('gender'))
+                        <div class="text-danger">{{ $errors->first('gender')}}</div>
+                    @endif
+                </div>
+                <div class="form-group">
                     <label>Nama Penginapan</label>
-                    <input type="text" class="form-control" name="nama" value="{{ old('nama') }}" required autofocus>
+                    <input type="text" class="form-control form-control-sm" name="nama" maxlength="35" value="{{ old('nama') }}" required>
 
                     @if($errors->has('nama'))
                         <div class="text-danger">{{ $errors->first('nama')}}</div>
@@ -26,7 +45,7 @@
                 
                 <div class="form-group">
                     <label>Alamat Penginapan</label>
-                    <textarea class="form-control" name="alamat" required>{{ old('alamat') }}</textarea>
+                    <textarea class="form-control form-control-sm" name="alamat" required>{{ old('alamat') }}</textarea>
 
                     @if($errors->has('alamat'))
                         <div class="text-danger">{{ $errors->first('alamat') }}</div>
@@ -39,11 +58,11 @@
                     <div class="row mt-2">
                         <div class="col-6">
                             <label>Latitude</label>
-                            <input type="text" class="form-control" id="latitude" name="latitude" readonly>
+                            <input type="text" class="form-control form-control-sm" id="latitude" name="latitude" readonly>
                         </div>
                         <div class="col-6">
                             <label>Longitude</label>
-                            <input type="text" class="form-control" id="longitude" name="longitude" readonly>
+                            <input type="text" class="form-control form-control-sm" id="longitude" name="longitude" readonly>
                         </div>
 
                         @if($errors->has('latitude'))
@@ -57,7 +76,7 @@
 
                 <div class="form-group">
                     <label>Nomor Telepon</label>
-                    <input type="text" class="form-control" name="telepon" value="{{ old('telepon') }}" required>
+                    <input type="tel" class="form-control form-control-sm" name="telepon" value="{{ old('telepon') }}" required>
 
                     @if($errors->has('telepon'))
                         <div class="text-danger">{{ $errors->first('telepon')}}</div>
@@ -66,7 +85,7 @@
 
                 <div class="form-group">
                     <label>Foto Penginapan</label>
-                    <input type="file" class="form-control" name="foto[]" accept="image/*" multiple required>
+                    <input type="file" class="form-control-file" name="foto[]" accept="image/*" multiple required>
 
                     @if($errors->has('foto'))
                         <div class="text-danger">{{ $errors->first('foto')}}</div>

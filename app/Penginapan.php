@@ -9,7 +9,7 @@ class Penginapan extends Model
     protected $table = 'penginapan';
     protected $primaryKey = 'id_penginapan';
     protected $fillable = [
-        'id_users', 'nama', 'alamat', 'latitude', 'longitude', 'telepon', 'created_at', 'updated_at'
+        'id_users', 'gender', 'nama', 'alamat', 'latitude', 'longitude', 'telepon', 'created_at', 'updated_at'
     ];
 
     public function user(){

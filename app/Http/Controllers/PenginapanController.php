@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Session;
 use File;
+use DB;
 use App\Penginapan;
 use App\Kamar;
 use App\MasterFasilitas;
@@ -25,17 +26,18 @@ class PenginapanController extends Controller
 
     public function index()
     {
-        return view('penginapan.penginapan', ['penginapan' => Penginapan::where('id_users', Auth::id())->get()]);
+        return view('penginapan.index_penginapan', ['penginapan' => Penginapan::where('id_users', Auth::id())->get()]);
     }
 
     public function create()
     {
-        return view('penginapan.tambah_penginapan', ['masterfasilitas' => MasterFasilitas::all()]);
+        return view('penginapan.create_penginapan', ['masterfasilitas' => MasterFasilitas::all()]);
     }
 
     public function store(Request $request)
     {
         $this->validate($request, [
+            'gender' => 'required',
             'nama' => 'required|max:35',
             'alamat' => 'required',
             'latitude' => 'required',
@@ -47,6 +49,7 @@ class PenginapanController extends Controller
 
         $data = array(
             'id_users' => Auth::id(),
+            'gender' => $request->gender,
             'nama' => $request->nama,
             'alamat' => $request->alamat,
             'latitude' => $request->latitude,
@@ -73,7 +76,12 @@ class PenginapanController extends Controller
 
     public function show($id)
     {
-        return view('pengnapan.detail_penginapan', ['penginapan' => Penginapan::where('id_penginapan', $id)->get()]);  
+        $data = ([
+            'penginapan' => Penginapan::findOrFail($id),
+            'fasilitas' => DB::table('fasilitas')->join('master_fasilitas', 'fasilitas.id_fasilitas', '=', 'master_fasilitas.id_fasilitas')->where('fasilitas.id_penginapan', $id)->get(),
+            'foto' => FotoPenginapan::where('id_penginapan', $id)->get()
+        ]);
+        return view('penginapan.show_penginapan', $data);  
     }
 
     public function edit($id)
@@ -83,7 +91,7 @@ class PenginapanController extends Controller
             'fasilitas' => Fasilitas::where('id_penginapan', $id)->get(),
             'masterfasilitas' => MasterFasilitas::all()
         ]);        
-        return view('penginapan.ubah_penginapan', $data);
+        return view('penginapan.edit_penginapan', $data);
     }
 
     public function update(Request $request, $id)

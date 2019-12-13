@@ -21,13 +21,13 @@
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700">
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css">
-    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css' type='text/css'>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css" type="text/css">
   </head>
   <body class="hold-transition sidebar-mini layout-fixed">
   <!-- Site wrapper -->
     <div class="wrapper">
       <!-- Navbar -->
-      <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+      <nav class="main-header navbar navbar-expand navbar-light navbar-dark">
         <!-- Left navbar links -->
         <ul class="navbar-nav">
           <li class="nav-item">
@@ -38,7 +38,7 @@
       <!-- /.navbar -->
 
       <!-- Main Sidebar Container -->
-      <aside class="main-sidebar sidebar-light-primary elevation-4">
+      <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a href="#" class="brand-link">
           <img src="{{ asset('img/GassKosLogo.png')}}" class="brand-image img-circle elevation-3" style="opacity: .8">
@@ -47,11 +47,7 @@
 
         <!-- Sidebar -->
         <div class="sidebar">
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="info">
-                <a href="#" class="d-block">{{ Auth::user()->name }}</a>
-            </div>
-        </div>
+
           <!-- Sidebar Menu -->
           <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -107,6 +103,7 @@
     <script src="{{ asset('/js/jquery.overlayScrollbars.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('/js/adminlte.min.js') }}"></script>
+    <script src="{{ asset('/js/demo.js') }}"></script>
     @yield('javascript')
   </body>
 </html>
