@@ -6,6 +6,7 @@
   <title>GassKos | Register</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="{{ asset('img/GassKosLogo.png') }}">
 
   <!-- Font Awesome -->
   <script src="https://kit.fontawesome.com/b8fa203308.js" crossorigin="anonymous"></script>
@@ -19,7 +20,7 @@
 <body class="hold-transition register-page">
 <div class="register-box">
   <div class="register-logo">
-    <p><b>Admin</b> GassKos</p>
+  <img src="{{ asset('img/GassKosLogo.png') }}" class="brand-image img-circle elevation-5" style="opacity: .8" width="128px" height="128px">
   </div>
 
   <div class="card">
@@ -28,7 +29,7 @@
         @csrf
 
         <div class="form-group mb-3">
-          <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="Full name" value="{{ old('name') }}" required autofocus>
+          <input type="text" name="name" class="form-control form-control-sm @error('name') is-invalid @enderror" placeholder="Full name" value="{{ old('name') }}" required autofocus>
           @error('name')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
@@ -37,7 +38,7 @@
         </div>
 
         <div class="form-group mb-3">
-          <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" value="{{ old('email') }}" required>
+          <input type="email" name="email" class="form-control form-control-sm @error('email') is-invalid @enderror" placeholder="Email" value="{{ old('email') }}" required>
 
           @error('email')
             <span class="invalid-feedback" role="alert">
@@ -47,7 +48,7 @@
         </div>
 
         <div class="form-group mb-3">
-          <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" required>
+          <input type="password" name="password" class="form-control form-control-sm @error('password') is-invalid @enderror" placeholder="Password" required>
 
           @error('password')
             <span class="invalid-feedback" role="alert">
@@ -57,16 +58,18 @@
         </div>
 
         <div class="form-group mb-3">
-          <input type="password" name="password_confirmation" class="form-control" placeholder="Retype password" required>
+          <input type="password" name="password_confirmation" class="form-control form-control-sm" placeholder="Retype password" required>
         </div>
 
         <div class="row">
           <div class="col-12">
-            <button type="submit" class="btn btn-primary btn-block">Register</button>
+            <button type="submit" class="btn btn-primary btn-sm btn-block">Register</button>
           </div>
           <!-- /.col -->
         </div>
       </form>
+
+      <p class="mt-1 mb-0 text-center"><a href="{{ route('login') }}" class="text-center">Saya sudah punya akun!</a></p>
     </div>
     <!-- /.form-box -->
   </div><!-- /.card -->

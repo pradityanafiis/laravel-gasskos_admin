@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
-});
+Route::get('/', 'Auth\LoginController@ShowLoginForm');
 
 Route::group(['middleware' => 'auth'], function(){
     Route::resource("penginapan", "PenginapanController");

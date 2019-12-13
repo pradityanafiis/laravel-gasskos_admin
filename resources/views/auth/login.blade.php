@@ -27,7 +27,7 @@
       <form method="POST" action="{{ route('login') }}">
         @csrf
         <div class="form-group mb-3">
-            <input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" value="{{ old('email') }}" autocomplete="email" required autofocus>
+            <input type="email" name="email" class="form-control form-control-sm @error('email') is-invalid @enderror" placeholder="Email" value="{{ old('email') }}" required autofocus>
 
             @error('email')
                 <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
@@ -35,7 +35,7 @@
         </div>
 
         <div class="form-group mb-3">
-            <input type="password" name="password" id="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" autocomplete="current-password" required>
+            <input type="password" name="password" class="form-control form-control-sm @error('password') is-invalid @enderror" placeholder="Password" required>
           
             @error('password')
                 <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
@@ -44,12 +44,13 @@
 
         <div class="row">
           <div class="col-12">
-            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+            <button type="submit" class="btn btn-primary btn-sm btn-block">Log In</button>
           </div>
           <!-- /.col -->
         </div>
         
       </form>
+      <p class="mt-1 mb-0 text-center"><a href="{{ route('register') }}" class="text-center">Saya ingin buat akun baru!</a></p>
       
     </div>
     <!-- /.login-card-body -->

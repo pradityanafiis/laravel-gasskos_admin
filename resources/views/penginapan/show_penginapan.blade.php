@@ -11,20 +11,20 @@
 @section('main_content')
 
     <div class="row justify-content-center">
-        <div class="col-6">
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                <p class="card-title">Detail Penginapan</p>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                    <i class="fas fa-minus"></i></button>
-                    <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
-                    <i class="fas fa-times"></i></button>
-                </div>
+                    <p class="card-title">Detail Penginapan</p>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                        <i class="fas fa-minus"></i></button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
+                        <i class="fas fa-times"></i></button>
+                    </div>
                 </div>
 
                 <div class="card-body">
-                    <div class="table-responsive">
+                    <div class="table-borderless table-responsive">
                         <table class="table">
                             <tr>
                                 <th style="width:25%">Gender</th>
@@ -56,6 +56,51 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <p class="card-title">Foto Penginapan</p>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                        <i class="fas fa-minus"></i></button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
+                        <i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div id="carouselFotoPenginapan" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <?php
+                                $urutanSlide = 0;
+                                $urutanFoto = 0;
+                            ?>
+                            @foreach($foto as $data)
+                                <li data-target="#carouselFotoPenginapan" data-slide-to="{{ $urutanSlide }}" class="{{ ($urutanSlide == '0') ? 'active' : '' }}"></li>
+                                <?php $urutanSlide++ ?>
+                            @endforeach
+                        </ol>
+                        <div class="carousel-inner">
+                            @foreach($foto as $fotopenginapan)
+                                <div class="carousel-item {{ ($urutanFoto == '0') ? 'active' : '' }}">
+                                    <img class="d-block w-100" src="{{ asset('foto_penginapan/'.$fotopenginapan->path.'') }}">
+                                </div>
+                                <?php $urutanFoto++ ?>
+                            @endforeach()
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselFotoPenginapan" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselFotoPenginapan" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>            
+            </div>        
         </div>
     </div>
 @endsection
