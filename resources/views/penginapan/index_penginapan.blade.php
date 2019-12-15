@@ -36,9 +36,9 @@
             <table id="table_penginapan" class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>Gender</th>
-                        <th>Nama Penginapan</th>
-                        <th>Aksi</th>
+                        <th style="width:10%">Gender</th>
+                        <th style="width:75x%">Nama Penginapan</th>
+                        <th style="width:15%">Aksi</th>
                     </tr>
                 </thead>
 
@@ -49,13 +49,13 @@
                             <td>{{ $data->gender }}</td>
                             <td>{{ $data->nama }}</td>
                             <td>
-                                <a class="btn btn-primary btn-sm" href="/penginapan/{{ $data->id_penginapan }}"><i class="far fa-eye"></i></a>
+                                <a class="btn btn-tool" href="/penginapan/{{ $data->id_penginapan }}" data-toggle="tooltip" title="View"><i class="far fa-eye"></i></a>
                                 <form onsubmit="return confirm('Hapus penginapan beserta seluruh kamarnya?')" class="d-inline" action="{{route('penginapan.destroy', [$data->id_penginapan])}}" method="POST">
                                     @csrf
                                     {{ method_field('DELETE') }}
-                                    <button type="submit" value="Delete" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></button>
+                                    <button type="submit" value="Delete" class="btn btn-tool" data-toggle="tooltip" title="Delete"><i class="far fa-trash-alt"></i></button>
                                 </form>
-                                <a class="btn btn-success btn-sm" href="{{route('penginapan.edit', [$data->id_penginapan])}}"><i class="far fa-edit"></i></a>
+                                <a class="btn btn-tool" href="{{route('penginapan.edit', [$data->id_penginapan])}}" data-toggle="tooltip" title="Edit"><i class="far fa-edit"></i></a>
                             </td>
                         </tr>
                         @endforeach
