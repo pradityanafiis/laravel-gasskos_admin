@@ -1,10 +1,10 @@
 @extends('layouts.app')
-@section('title', 'GassKos - Penginapan')
-@section('title_2', 'Penginapan')
+@section('title', 'GassKos - Kamar')
+@section('title_2', 'Kamar')
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item active">Penginapan</li>
+    <li class="breadcrumb-item active">Kamar</li>
 @endsection
 
 @section('main_content')
@@ -25,7 +25,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <p class="card-title">Daftar Penginapan</p>
+                    <p class="card-title">Daftar Kamar</p>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
                             <i class="fas fa-minus"></i></button>
@@ -35,29 +35,28 @@
                 </div>
 
                 <div class="card-body">
-                    <table id="table_penginapan" class="table table-bordered">
+                    <table id="table_kamar" class="table table-bordered">
                         <thead>
                             <tr>
-                                <th style="width:10%">Gender</th>
-                                <th style="width:75x%">Nama Penginapan</th>
-                                <th style="width:15%">Aksi</th>
+                                <th>Nama Penginapan</th>
+                                <th>Tipe Kamar</th>
+                                <th>Harga Kamar</th>
+                                <th>Kapasitas</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            @if($penginapan != null) 
-                                @foreach($penginapan as $data)
+                            @if($kamar != null) 
+                                @foreach($kamar as $data)
                                 <tr>
-                                    <td>{{ $data->gender }}</td>
                                     <td>{{ $data->nama }}</td>
+                                    <td>{{ $data->tipe }}</td>
+                                    <td>Rp{{ number_format($data->harga, 0, ',', '.') }}</td>
+                                    <td>{{ $data->kapasitas }}</td>
                                     <td>
-                                        <a class="btn btn-tool" href="/penginapan/{{ $data->id_penginapan }}" data-toggle="tooltip" title="View"><i class="far fa-eye"></i></a>
-                                        <form onsubmit="return confirm('Hapus penginapan beserta seluruh kamarnya?')" class="d-inline" action="{{route('penginapan.destroy', [$data->id_penginapan])}}" method="POST">
-                                            @csrf
-                                            {{ method_field('DELETE') }}
-                                            <button type="submit" value="Delete" class="btn btn-tool" data-toggle="tooltip" title="Delete"><i class="far fa-trash-alt"></i></button>
-                                        </form>
-                                        <a class="btn btn-tool" href="{{ route('penginapan.edit', [$data->id_penginapan]) }}" data-toggle="tooltip" title="Edit"><i class="far fa-edit"></i></a>
+                                        <a class="btn btn-tool" href="/kamar/hapus/{{ $data->id_kamar }}"><i class="far fa-trash-alt"></i></a>
+                                        <a class="btn btn-tool" href="/kamar/ubah/{{ $data->id_kamar }}"><i class="far fa-edit"></i></a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -73,7 +72,7 @@
 @section('javascript')
     <script>
         $(document).ready( function () {
-            $('#table_penginapan').DataTable({
+            $('#table_kamar').DataTable({
                 responsive: true
             });
         });

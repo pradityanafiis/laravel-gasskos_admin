@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
 use Auth;
 use Session;
 use App\Penginapan;
@@ -13,26 +11,18 @@ use DB;
 
 class KamarController extends Controller
 {
-    private $client;
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->client = new Client();
-    }
-    
     public function index()
-    {        
+    {
         $kamar = DB::table('kamar')->join('penginapan', 'kamar.id_penginapan', '=', 'penginapan.id_penginapan')->join('users', 'penginapan.id_users', '=', 'users.id')->where('users.id', Auth::id())->get();
-        return view('kamar.kamar', ['kamar' => $kamar]);
+        return view('kamar.index_kamar', ['kamar' => $kamar]);
     }
 
-    public function showTambah()
+    public function create()
     {
         $penginapan = Penginapan::where('id_users', Auth::id())->get();
-        return view('kamar.tambah_kamar', ['penginapan' => $penginapan]);  
+        return view('kamar.create_kamar', ['penginapan' => $penginapan]);  
     }
-
+    
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -51,24 +41,24 @@ class KamarController extends Controller
 
         Kamar::create($data);
         Session::flash('success','Kamar telah ditambahkan.');
-        return redirect('/kamar/lihat');
+        return redirect()->route('kamar.index')->with('status', "Kamar telah ditambahkan");
     }
 
-    public function delete($id_kamar)
+    public function show($id)
     {
-        Kamar::where('id_kamar', $id_kamar)->delete();
-        Session::flash('success','Kamar telah dihapus.');
-        return redirect('/kamar/lihat');
+        //
     }
 
-    public function showUbah($id_kamar)
-    {        
-        $penginapan = Penginapan::where('id_users', Auth::id())->get();
-        $kamar = Kamar::find($id_kamar);
-        return view('kamar.ubah_kamar', ['kamar' => $kamar, 'penginapan' => $penginapan]);
+    public function edit($id)
+    {
+        $data = [
+            'penginapan' => Penginapan::where('id_users', Auth::id())->get(),
+            'kamar' => Kamar::find($id_kamar)
+        ];
+        return view('kamar.edit_kamar', $data);
     }
 
-    public function update($id_kamar, Request $request)
+    public function update(Request $request, $id)
     {
         $this->validate($request, [
             'penginapan' => 'required',
@@ -88,7 +78,12 @@ class KamarController extends Controller
         );
 
         $kamar = Kamar::where('id_kamar', $id_kamar)->update($data);
-        Session::flash('success','Kamar telah diubah.');
-        return redirect('/kamar/lihat');
+        return redirect()->route('kamar.index')->with('status', 'Kamar telah diubah');
+    }
+
+    public function destroy($id)
+    {
+        Kamar::where('id_kamar', $id_kamar)->delete();
+        return redirect()->route('kamar.index')->with('status', 'Kamar telah dihapus');
     }
 }

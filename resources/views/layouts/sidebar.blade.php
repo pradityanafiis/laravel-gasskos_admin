@@ -23,19 +23,19 @@
     </ul>
 </li>
 
-<li class="nav-item has-treeview {{ (request()->is('kamar/*')) ? 'menu-open' : '' }}">
-    <a href="#" class="nav-link {{ (request()->is('kamar/*')) ? 'active' : '' }}">
+<li class="nav-item has-treeview {{ (request()->is('kamar') || request()->is('kamar/*')) ? 'menu-open' : '' }}">
+    <a href="#" class="nav-link {{ (request()->is('kamar') || request()->is('kamar/*')) ? 'active' : '' }}">
         <i class="nav-icon fas fa-bed"></i>
         <p>Kamar<i class="right fas fa-angle-left"></i></p>
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-        <a href="/kamar/lihat" class="nav-link {{ (request()->is('kamar/lihat')) ? 'active' : '' }}">
+        <a href="{{ route('kamar.index') }}" class="nav-link {{ (request()->is('kamar')) ? 'active' : '' }}">
             <i class="far fa-circle nav-icon"></i><p>Lihat Kamar</p>
         </a>
         </li>
         <li class="nav-item">
-        <a href="/kamar/tambah" class="nav-link {{ (request()->is('kamar/tambah')) ? 'active' : '' }}">
+        <a href="{{ route('kamar.create') }}" class="nav-link {{ (request()->is('kamar/create')) ? 'active' : '' }}">
             <i class="far fa-circle nav-icon"></i><p>Tambah Kamar</p>
         </a>
         </li>

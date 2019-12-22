@@ -15,15 +15,7 @@ Route::get('/', 'Auth\LoginController@ShowLoginForm');
 
 Route::group(['middleware' => 'auth'], function(){
     Route::resource("penginapan", "PenginapanController");
-});
-
-Route::group(['prefix' => 'kamar/', 'middleware' => 'auth'], function(){
-    Route::get('lihat', 'KamarController@index');
-    Route::get('tambah', 'KamarController@showTambah');
-    Route::post('store', 'KamarController@store');
-    Route::get('hapus/{id}', 'KamarController@delete');
-    Route::get('ubah/{id}', 'KamarController@showUbah');
-    Route::put('update/{id}', 'KamarController@update');
+    Route::resource("kamar", "KamarController");
 });
 
 Auth::routes();

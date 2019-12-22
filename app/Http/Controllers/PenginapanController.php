@@ -15,7 +15,6 @@ use App\FotoPenginapan;
 
 class PenginapanController extends Controller
 {
-
     public $path;
 
     public function __construct()
@@ -71,16 +70,16 @@ class PenginapanController extends Controller
             FotoPenginapan::create(['id_penginapan' => $penginapan->id_penginapan, 'path' => $namaFoto]);
         }
         
-        return redirect()->route('penginapan.index')->with('status', "Penginapan $penginapan->nama telah ditambahkan");
+        return redirect()->route('penginapan.show', [$penginapan->id_penginapan])->with('status', "Penginapan $penginapan->nama telah ditambahkan");
     }
 
     public function show($id)
     {
-        $data = ([
+        $data = [
             'penginapan' => Penginapan::findOrFail($id),
             'fasilitas' => DB::table('fasilitas')->join('master_fasilitas', 'fasilitas.id_fasilitas', '=', 'master_fasilitas.id_fasilitas')->where('fasilitas.id_penginapan', $id)->get(),
             'foto' => FotoPenginapan::where('id_penginapan', $id)->get()
-        ]);
+        ];
         return view('penginapan.show_penginapan', $data);  
     }
 
@@ -97,16 +96,17 @@ class PenginapanController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
+            'gender' => 'required',
             'nama' => 'required|max:35',
             'alamat' => 'required',
             'telepon' => 'required|numeric|digits_between:10,13'
         ]);
 
         $data = array(
+            'gender' => $request->gender,
             'nama' => $request->nama,
             'alamat' => $request->alamat,
-            'telepon' => $request->telepon,
-            'id_penginapan' => $id
+            'telepon' => $request->telepon
         );
         
         Penginapan::where('id_penginapan', $id)->update($data);
@@ -114,7 +114,7 @@ class PenginapanController extends Controller
         foreach ($request->fasilitas as $fasilitas) {
             Fasilitas::create(['id_penginapan' => $id, 'id_fasilitas' => $fasilitas]);
         }
-        return redirect()->route('penginapan.index')->with('status', "Penginapan telah diubah");
+        return redirect()->route('penginapan.show', [$id])->with('status', "Penginapan telah diubah");
     }
 
     public function destroy($id)
