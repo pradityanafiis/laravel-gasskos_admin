@@ -11,7 +11,7 @@
 @section('main_content')
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card card-primary">
+            <div class="card">
                 <form method="POST" action="{{ route('penginapan.store') }}" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <div class="card-body">
@@ -55,7 +55,7 @@
                     <div class="form-group">
                         <label>Map</label>
                         <div id='map' style='width: 100%; height: 300px;'></div>
-                        <small class="form-text text-muted">Perbarui lokasi anda terlebih dahulu, lalu klik lokasi anda pada map di atas.</small>
+                        <small class="form-text text-muted">Perbarui lokasi terkini anda dengan mengklik button di pojok kanan atas, lalu klik lokasi penginapan pada map di atas sampai muncul marker</small>
                         <div class="row mt-2">
                             <div class="col-6">
                                 <label>Latitude</label>
@@ -77,7 +77,8 @@
 
                     <div class="form-group">
                         <label>Nomor Telepon</label>
-                        <input type="tel" class="form-control form-control-sm" name="telepon" value="{{ old('telepon') }}" required>
+                        <input type="tel" class="form-control form-control-sm" name="telepon" value="{{ old('telepon') }}" maxlength="13" required>
+                        <small class="form-text text-muted">Format nomor telepon : 08xxxxxxxxxx</small>
 
                         @if($errors->has('telepon'))
                             <div class="text-danger">{{ $errors->first('telepon')}}</div>
@@ -87,6 +88,7 @@
                     <div class="form-group">
                         <label>Foto Penginapan</label>
                         <input type="file" class="form-control-file" name="foto[]" accept="image/*" multiple required>
+                        <small class="form-text text-muted">Diperbolehkan upload banyak foto</small>
 
                         @if($errors->has('foto'))
                             <div class="text-danger">{{ $errors->first('foto')}}</div>
@@ -101,6 +103,7 @@
                                 <label class="form-check-label">{{ $data->nama }}</label>
                             </div>
                         @endforeach
+                        <small class="form-text text-muted">Fasilitas yang tersedia pada penginapan (diperbolehkan lebih dari satu)</small>
 
                         @if($errors->has('fasilitas'))
                             <div class="text-danger">{{ $errors->first('fasilitas')}}</div>

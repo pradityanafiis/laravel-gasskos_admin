@@ -50,7 +50,7 @@
         </div>
         
       </form>
-      <p class="mt-1 mb-0 text-center"><a href="{{ route('register') }}" class="text-center">Saya ingin buat akun baru!</a></p>
+      <p class="mt-1 mb-0 text-center">Belum punya akun? <a href="{{ route('register') }}" class="text-center">Register</a></p>
       
     </div>
     <!-- /.login-card-body -->

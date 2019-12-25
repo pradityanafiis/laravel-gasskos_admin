@@ -78,7 +78,8 @@ class PenginapanController extends Controller
         $data = [
             'penginapan' => Penginapan::findOrFail($id),
             'fasilitas' => DB::table('fasilitas')->join('master_fasilitas', 'fasilitas.id_fasilitas', '=', 'master_fasilitas.id_fasilitas')->where('fasilitas.id_penginapan', $id)->get(),
-            'foto' => FotoPenginapan::where('id_penginapan', $id)->get()
+            'foto' => FotoPenginapan::where('id_penginapan', $id)->get(),
+            'kamar' => Kamar::where('id_penginapan', $id)->get()
         ];
         return view('penginapan.show_penginapan', $data);  
     }
@@ -88,7 +89,8 @@ class PenginapanController extends Controller
         $data = ([
             'penginapan' => Penginapan::find($id),
             'fasilitas' => Fasilitas::where('id_penginapan', $id)->get(),
-            'masterfasilitas' => MasterFasilitas::all()
+            'masterfasilitas' => MasterFasilitas::all(),
+            'foto' => FotoPenginapan::where('id_penginapan', $id)->get()
         ]);        
         return view('penginapan.edit_penginapan', $data);
     }

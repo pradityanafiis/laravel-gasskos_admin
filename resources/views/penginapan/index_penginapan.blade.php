@@ -22,37 +22,37 @@
     </div>
 
     <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <p class="card-title">Daftar Penginapan</p>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                            <i class="fas fa-minus"></i></button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
-                            <i class="fas fa-times"></i></button>
+        @if(!$penginapan->isEmpty())
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <p class="card-title">Daftar Penginapan</p>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                <i class="fas fa-minus"></i></button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
+                                <i class="fas fa-times"></i></button>
+                        </div>
                     </div>
-                </div>
 
-                <div class="card-body">
-                    <table id="table_penginapan" class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th style="width:10%">Gender</th>
-                                <th style="width:75x%">Nama Penginapan</th>
-                                <th style="width:15%">Aksi</th>
-                            </tr>
-                        </thead>
+                    <div class="card-body">
+                        <table id="table_penginapan" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width:10%">Gender</th>
+                                    <th style="width:75x%">Nama Penginapan</th>
+                                    <th style="width:15%">Aksi</th>
+                                </tr>
+                            </thead>
 
-                        <tbody>
-                            @if($penginapan != null) 
+                            <tbody>
                                 @foreach($penginapan as $data)
                                 <tr>
                                     <td>{{ $data->gender }}</td>
                                     <td>{{ $data->nama }}</td>
                                     <td>
-                                        <a class="btn btn-tool" href="/penginapan/{{ $data->id_penginapan }}" data-toggle="tooltip" title="View"><i class="far fa-eye"></i></a>
-                                        <form onsubmit="return confirm('Hapus penginapan beserta seluruh kamarnya?')" class="d-inline" action="{{route('penginapan.destroy', [$data->id_penginapan])}}" method="POST">
+                                        <a class="btn btn-tool" href="{{ route('penginapan.show', [$data->id_penginapan]) }}" data-toggle="tooltip" title="View"><i class="far fa-eye"></i></a>
+                                        <form onsubmit="return confirm('Penginapan beserta seluruh kamarnya akan dihapus')" class="d-inline" action="{{ route('penginapan.destroy', [$data->id_penginapan]) }}" method="POST">
                                             @csrf
                                             {{ method_field('DELETE') }}
                                             <button type="submit" value="Delete" class="btn btn-tool" data-toggle="tooltip" title="Delete"><i class="far fa-trash-alt"></i></button>
@@ -61,12 +61,21 @@
                                     </td>
                                 </tr>
                                 @endforeach
-                            @endif
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
+        @else
+            <div class="col-md-8">
+                <div class="card bg-danger">
+                    <div class="card-header"><strong>Informasi</strong></div>
+                    <div class="card-body">
+                        <p class="card-text">Anda belum memiliki penginapan. Silakan tambahkan penginapan terlebih dahulu!</p>
+                    </div>
+                </div>
+            </div>
+        @endif
     </div>
 @endsection
 

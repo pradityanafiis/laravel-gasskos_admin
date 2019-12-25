@@ -21,18 +21,26 @@
             @endif
         </div>
     </div>
+
+    <div class="row justify-content-center mb-3">
+        <div class="col-md-6">
+            <div class="btn-group">
+                <a class="btn btn-primary" href="{{ route('penginapan.edit', [$penginapan->id_penginapan]) }}">Ubah Penginapan</a>
+                <button type="submit" class="btn btn-danger" onclick="event.preventDefault(); document.getElementById('destroy-form').submit();">Hapus Penginapan</button>
+                <form id="destroy-form" class="d-inline" action="{{ route('penginapan.destroy', [$penginapan->id_penginapan]) }}" method="POST">
+                    @csrf
+                    {{ method_field('DELETE') }}
+                </form>
+                <a class="btn btn-primary" href="{{ route('kamar.create') }}">Tambah Kamar</a>
+            </div>
+        </div>
+    </div>
     
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
                     <p class="card-title">Detail Penginapan</p>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                        <i class="fas fa-minus"></i></button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
-                        <i class="fas fa-times"></i></button>
-                    </div>
                 </div>
 
                 <div class="card-body">
@@ -122,14 +130,7 @@
             <div class="card">
                 <div class="card-header">
                     <p class="card-title">Foto Penginapan</p>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                        <i class="fas fa-minus"></i></button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
-                        <i class="fas fa-times"></i></button>
-                    </div>
                 </div>
-
                 <div class="card-body">
                     <table class="table">
                         <tr>
@@ -141,15 +142,47 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $fotopenginapan->path }}</td>
-                                <td><a class="btn btn-tool" href="{{ asset('foto_penginapan/'.$fotopenginapan->path.'') }}" target="__blank" data-toggle="tooltip" title="Delete"><i class="far fa-eye"></i></button></td>
+                                <td><a class="btn btn-tool" href="{{ asset('foto_penginapan/'.$fotopenginapan->path.'') }}" target="__blank" data-toggle="tooltip" title="Delete"><i class="far fa-eye"></i></a></td>
                             </tr>
+                            
                         @endforeach
                     </table>
-                
                 </div>
             </div>
         </div>
     </div>
+
+    @if(!$kamar->isEmpty())
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <p class="card-title">Daftar Kamar</p>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <tr>
+                                <th style="width:10%">#</th>
+                                <th style="width:30%">Tipe</th>
+                                <th>Harga</th>
+                                <th>Kapasitas</th>
+                                <th>Jumlah</th>
+                            </tr>
+                            @foreach($kamar as $data)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $data->tipe }}</td>
+                                    <td>Rp{{ number_format($data->harga, 0, ',', '.') }}</td>
+                                    <td>{{ $data->kapasitas }} Orang</td>
+                                    <td>{{ $data->jumlah }}</td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    </div>
+                </div>
+            </div>    
+        </div>
+    @endif
 @endsection
 
 @section('javascript')

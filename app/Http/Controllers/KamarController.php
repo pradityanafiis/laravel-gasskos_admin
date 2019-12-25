@@ -19,8 +19,7 @@ class KamarController extends Controller
 
     public function create()
     {
-        $penginapan = Penginapan::where('id_users', Auth::id())->get();
-        return view('kamar.create_kamar', ['penginapan' => $penginapan]);  
+        return view('kamar.create_kamar', ['penginapan' => Penginapan::where('id_users', Auth::id())->get()]);  
     }
     
     public function store(Request $request)
@@ -29,31 +28,27 @@ class KamarController extends Controller
             'penginapan' => 'required',
             'tipe' => 'required',
             'harga' => 'required|numeric',
-            'kapasitas' => 'required|numeric'
+            'kapasitas' => 'required|numeric',
+            'jumlah' => 'required|numeric'
         ]);
 
         $data = array(
             'id_penginapan' => $request->penginapan,
             'tipe' => $request->tipe,
             'harga' => $request->harga,
-            'kapasitas' => $request->kapasitas
+            'kapasitas' => $request->kapasitas,
+            'jumlah' => $request->jumlah
         );
 
         Kamar::create($data);
-        Session::flash('success','Kamar telah ditambahkan.');
         return redirect()->route('kamar.index')->with('status', "Kamar telah ditambahkan");
-    }
-
-    public function show($id)
-    {
-        //
     }
 
     public function edit($id)
     {
         $data = [
             'penginapan' => Penginapan::where('id_users', Auth::id())->get(),
-            'kamar' => Kamar::find($id_kamar)
+            'kamar' => Kamar::find($id)
         ];
         return view('kamar.edit_kamar', $data);
     }
@@ -64,26 +59,25 @@ class KamarController extends Controller
             'penginapan' => 'required',
             'tipe' => 'required',
             'harga' => 'required|numeric',
-            'fasilitas' => 'required',
-            'kapasitas' => 'required|numeric'
+            'kapasitas' => 'required|numeric',
+            'jumlah' => 'required|numeric'
         ]);
 
         $data = array(
             'id_penginapan' => $request->penginapan,
             'tipe' => $request->tipe,
             'harga' => $request->harga,
-            'fasilitas' => $request->fasilitas,
             'kapasitas' => $request->kapasitas,
-            'id_kamar' => $id_kamar
+            'jumlah' => $request->jumlah
         );
 
-        $kamar = Kamar::where('id_kamar', $id_kamar)->update($data);
+        $kamar = Kamar::where('id_kamar', $id)->update($data);
         return redirect()->route('kamar.index')->with('status', 'Kamar telah diubah');
     }
 
     public function destroy($id)
     {
-        Kamar::where('id_kamar', $id_kamar)->delete();
+        Kamar::where('id_kamar', $id)->delete();
         return redirect()->route('kamar.index')->with('status', 'Kamar telah dihapus');
     }
 }

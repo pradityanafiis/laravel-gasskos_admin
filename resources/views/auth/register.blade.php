@@ -29,7 +29,7 @@
         @csrf
 
         <div class="form-group mb-3">
-          <input type="text" name="name" class="form-control form-control-sm @error('name') is-invalid @enderror" placeholder="Full name" value="{{ old('name') }}" required autofocus>
+          <input type="text" name="name" class="form-control form-control-sm @error('name') is-invalid @enderror" placeholder="Nama lengkap" value="{{ old('name') }}" required autofocus>
           @error('name')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
@@ -69,7 +69,7 @@
         </div>
       </form>
 
-      <p class="mt-1 mb-0 text-center"><a href="{{ route('login') }}" class="text-center">Saya sudah punya akun!</a></p>
+      <p class="mt-1 mb-0 text-center">Sudah punya akun? <a href="{{ route('login') }}" class="text-center">Login</a></p>
     </div>
     <!-- /.form-box -->
   </div><!-- /.card -->

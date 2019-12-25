@@ -1,6 +1,6 @@
 <li class="nav-item">
     <a href="{{ route('home') }}" class="nav-link {{ (request()->is('home')) ? 'active' : '' }}">
-        <i class="nav-icon fas fa-tachometer-alt"></i><p>Dashboard</p>
+        <i class="nav-icon fas fa-home"></i><p>Beranda</p>
     </a>
 </li>
 
@@ -42,6 +42,7 @@
     </ul>
 </li>
 
+<!--
 <li class="nav-item">
     <a href="#" class="nav-link {{ (request()->is('transaksi')) ? 'active' : '' }}">
         <i class="nav-icon fas fa-cash-register"></i><p>Transaksi</p>
@@ -53,6 +54,7 @@
         <i class="nav-icon fas fa-medal"></i><p>Ulasan</p>
     </a>
 </li>
+-->
 
 <li class="nav-item">
     <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

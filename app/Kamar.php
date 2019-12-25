@@ -9,7 +9,7 @@ class Kamar extends Model
     protected $table = 'kamar';
     protected $primaryKey = 'id_kamar';
     protected $fillable = [
-        'id_penginapan', 'tipe', 'harga', 'kapasitas', 'created_at', 'updated_at'
+        'id_penginapan', 'tipe', 'harga', 'kapasitas', 'jumlah', 'created_at', 'updated_at'
     ];
 
     public function penginapan(){

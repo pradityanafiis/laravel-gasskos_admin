@@ -11,18 +11,17 @@
 @section('main_content')
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card card-primary">
-                <form method="POST" action="/kamar/store">
+            @if(!$penginapan->isEmpty())
+                <div class="card">
+                    <form method="POST" action="{{ route('kamar.store') }}">
                     {{ csrf_field() }}
                     <div class="card-body">
                         <div class="form-group">
                             <label>Penginapan</label>
                             <select name="penginapan" class="form-control" required autofocus>
-                                @if($penginapan != null)
-                                    @foreach($penginapan as $data)
-                                        <option value="{{ $data['id_penginapan'] }}">{{ $data['nama'] }}</option>
-                                    @endforeach
-                                @endif
+                                @foreach($penginapan as $data)
+                                    <option value="{{ $data['id_penginapan'] }}">{{ $data['nama'] }}</option>
+                                @endforeach
                             </select>
 
                             @if($errors->has('penginapan'))
@@ -38,19 +37,30 @@
                             @endif
                         </div>
                         <div class="form-group">
-                            <label>Harga</label>
-                            <input type="number" class="form-control" name="harga" value="{{ old('harga') }}" min="0" required>
+                            <label>Harga Kamar</label>
+                            <input type="number" class="form-control" name="harga" value="{{ old('harga') }}" min="1" required>
+                            <small class="form-text text-muted">Harga kamar dalam satuan per hari</small>
 
                             @if($errors->has('harga'))
                                 <div class="text-danger">{{ $errors->first('harga') }}</div>
                             @endif
                         </div>
                         <div class="form-group">
-                            <label>Kapasitas</label>
+                            <label>Kapasitas Kamar</label>
                             <input type="number" class="form-control" name="kapasitas" value="{{ old('kapasitas') }}" min="1" required>
+                            <small class="form-text text-muted">Kapasitas (orang) yang diperbolehkan</small>
 
                             @if($errors->has('kapasitas'))
                                 <div class="text-danger">{{ $errors->first('kapasitas')}}</div>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label>Jumlah Kamar</label>
+                            <input type="number" class="form-control" name="jumlah" value="{{ old('jumlah') }}" min="1" required>
+                            <small class="form-text text-muted">Jumlah kamar yang tersedia</small>
+
+                            @if($errors->has('jumlah'))
+                                <div class="text-danger">{{ $errors->first('jumlah')}}</div>
                             @endif
                         </div>
                     </div>
@@ -58,12 +68,16 @@
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
-                </form>
-            </div>
+                    </form>
+                </div>
+            @else
+                <div class="card bg-danger">
+                    <div class="card-header"><strong>Informasi</strong></div>
+                    <div class="card-body">
+                        <p class="card-text">Anda belum memiliki penginapan. Silakan tambahkan penginapan terlebih dahulu!</p>
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
-@endsection
-
-@section('javascript')
-
 @endsection

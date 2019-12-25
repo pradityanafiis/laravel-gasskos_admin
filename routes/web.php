@@ -15,7 +15,8 @@ Route::get('/', 'Auth\LoginController@ShowLoginForm');
 
 Route::group(['middleware' => 'auth'], function(){
     Route::resource("penginapan", "PenginapanController");
-    Route::resource("kamar", "KamarController");
+    Route::resource("kamar", "KamarController")->except('show');
+    Route::resource("fotopenginapan", "FotoPenginapanController")->only(['store', 'destroy']);
 });
 
 Auth::routes();

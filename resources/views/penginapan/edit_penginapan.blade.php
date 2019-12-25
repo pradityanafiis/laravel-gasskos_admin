@@ -9,9 +9,12 @@
 @endsection
 
 @section('main_content')
-<div class="row justify-content-center">
-    <div class="col-md-8">
-        <div class="card card-primary">
+<div class="row">
+    <div class="col-md-7">
+        <div class="card">
+            <div class="card-header">
+                <p class="card-title">Ubah Data Penginapan</p>
+            </div>
             <form method="POST" action="{{ route('penginapan.update', [$penginapan->id_penginapan]) }}">
             {{ csrf_field() }}
             {{ method_field('PUT') }}
@@ -54,7 +57,7 @@
                 <div class="form-group">
                     <label>Map</label>
                     <div id='map' style='width: 100%; height: 300px;'></div>
-                    <small class="form-text text-muted">Perbarui lokasi anda terlebih dahulu, lalu klik lokasi anda pada map di atas.</small>
+                    <small class="form-text text-muted">Perbarui lokasi terkini anda dengan mengklik button di pojok kanan atas, lalu klik lokasi penginapan pada map di atas sampai muncul marker</small>
                     <div class="row mt-2">
                         <div class="col-6">
                             <label>Latitude</label>
@@ -76,6 +79,7 @@
                 <div class="form-group">
                     <label>Nomor Telepon</label>
                     <input type="text" class="form-control" name="telepon" value="{{ $penginapan->telepon }}" required>
+                    <small class="form-text text-muted">Format nomor telepon : 08xxxxxxxxxx</small>
 
                     @if($errors->has('telepon'))
                         <div class="text-danger">{{ $errors->first('telepon')}}</div>
@@ -84,13 +88,12 @@
                 <div class="form-group">
                     <label>Fasilitas Penginapan</label>
                     @foreach($masterfasilitas as $data)
-                        
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="fasilitas[]" value="{{ $data->id_fasilitas }}" @foreach ($fasilitas as $available) @if($data->id_fasilitas == $available->id_fasilitas ) checked @endif @endforeach>
-                                <label class="form-check-label">{{ $data->nama }}</label>
-                            </div>
-                        
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="fasilitas[]" value="{{ $data->id_fasilitas }}" @foreach ($fasilitas as $available) @if($data->id_fasilitas == $available->id_fasilitas) checked @endif @endforeach>
+                            <label class="form-check-label">{{ $data->nama }}</label>
+                        </div>
                     @endforeach
+                    <small class="form-text text-muted">Fasilitas yang tersedia pada penginapan (diperbolehkan lebih dari satu)</small>
                 </div>
             </div>
 
@@ -100,9 +103,52 @@
             </form>
         </div>
     </div>
-</div>
 
-<!-- /.card -->
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-header">
+                <p class="card-title">Ubah Foto Penginapan</p>
+            </div>
+            <div class="card-body">
+                <table class="table table-responsive">
+                    <tr>
+                        <th style="width:5%">#</th>
+                        <th style="width:75%">Nama File</th>
+                        <th>View</th>
+                        <th>Delete</th>
+                    </tr>
+                    @foreach($foto as $fotopenginapan)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $fotopenginapan->path }}</td>
+                            <td><a class="btn btn-tool" href="{{ asset('foto_penginapan/'.$fotopenginapan->path.'') }}" target="__blank" data-toggle="tooltip" title="View"><i class="far fa-eye"></i></a></td>
+                            <td>
+                                <form onsubmit="return confirm('Foto penginapan akan dihapus')" class="d-inline" action="{{ route('fotopenginapan.destroy', [$fotopenginapan->id_foto]) }}" method="POST">
+                                    @csrf
+                                    {{ method_field('DELETE') }}
+                                    <button type="submit" value="Delete" class="btn btn-tool" data-toggle="tooltip" title="Delete"><i class="far fa-trash-alt"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </table>
+            </div>
+
+            <div class="card-footer">
+                <form method="POST" action="{{ route('fotopenginapan.store') }}" enctype="multipart/form-data">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="id_penginapan" value="{{ $penginapan->id_penginapan }}">
+                    <div class="form-group">
+                        <label>Tambah Foto Penginapan</label>
+                        <input type="file" class="form-control-file" name="foto[]" accept="image/*" multiple required>
+                        <small class="form-text text-muted">Diperbolehkan upload banyak foto</small>
+                    </div>
+                    <button class="btn btn-primary btn-block" type="submit">Upload</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('javascript')
