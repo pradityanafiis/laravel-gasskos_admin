@@ -12,6 +12,10 @@ class Kamar extends Model
         'id_penginapan', 'tipe', 'harga', 'kapasitas', 'jumlah', 'created_at', 'updated_at'
     ];
 
+    protected $hidden = [
+        'created_at', 'updated_at'
+    ];
+
     public function penginapan(){
         return $this->belongsTo('App\Penginapan', 'id_penginapan');
     }

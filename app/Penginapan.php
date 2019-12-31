@@ -12,6 +12,10 @@ class Penginapan extends Model
         'id_users', 'gender', 'nama', 'alamat', 'latitude', 'longitude', 'telepon', 'created_at', 'updated_at'
     ];
 
+    protected $hidden = [
+        'created_at', 'updated_at'
+    ];
+
     public function user(){
         return $this->belongsTo('App\User', 'id_users');
     }

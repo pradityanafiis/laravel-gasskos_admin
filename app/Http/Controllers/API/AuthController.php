@@ -17,21 +17,33 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         try {
             if (!$token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'invalid_credentials'], 400);
+                return response()->json([
+                    'error' => 'true',
+                    'message' => 'Email atau password salah'
+                ]);
             }
         } catch (JWTException $e) {
-            return response()->json(['error' => 'could_not_create_token'], 500);
+            return response()->json([
+                'error' => 'true',
+                'message' => 'could_not_create_token'
+            ]);
         }
 
-        return response()->json(compact('token'));
+        $user = User::where('email', $request->email)->get()->first();
+        return response()->json([
+            'error' => 'false',
+            'message' => 'Berhasil login',
+            'user' => $user,
+            'token' => $token
+        ]);
     }
 
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6|confirmed'
         ]);
 
         if($validator->fails()){
@@ -52,7 +64,7 @@ class AuthController extends Controller
     public function getAuthenticatedUser()
     {
         try {
-            if (! $user = JWTAuth::parseToken()->authenticate()) {
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['User Not Found'], 404);
             }
         } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
@@ -65,27 +77,4 @@ class AuthController extends Controller
 
         return response()->json(compact('user'));
     }
-    /*
-    public function register(Request $request)
-    {
-        $this->validate($request, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6'
-        ]);
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password)
-        ]);
-        
-        $response = [
-            'message' => 'User created',
-            'user' => $user
-        ];
-
-        return response()->json($response, 201);
-    }
-    */
 }

@@ -11,6 +11,9 @@ class FotoPenginapan extends Model
     protected $fillable = [
         'id_penginapan', 'path'
     ];
+    protected $hidden = [
+        'created_at', 'updated_at'
+    ];
 
     public function penginapan(){
         return $this->belongsTo('App\Penginapan', 'id_penginapan');
