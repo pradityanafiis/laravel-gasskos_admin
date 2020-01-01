@@ -11,7 +11,6 @@ class Penginapan extends Model
     protected $fillable = [
         'id_users', 'gender', 'nama', 'alamat', 'latitude', 'longitude', 'telepon', 'created_at', 'updated_at'
     ];
-
     protected $hidden = [
         'created_at', 'updated_at'
     ];
