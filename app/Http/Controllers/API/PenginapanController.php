@@ -14,6 +14,32 @@ class PenginapanController extends Controller
 {
     public function index()
     {
+        $penginapans = DB::table('penginapan')->get();
+        $data = collect([]);
+        foreach ($penginapans as $penginapan) {
+            $foto = FotoPenginapan::where('id_penginapan', $penginapan->id_penginapan)->select('path')->first();
+            $min = DB::table('kamar')->where('id_penginapan', $penginapan->id_penginapan)->min('harga');
+            $max = DB::table('kamar')->where('id_penginapan', $penginapan->id_penginapan)->max('harga');
+            $temp = [
+                'id_penginapan' => $penginapan->id_penginapan,
+                'id_users' => $penginapan->id_users,
+                'gender' => $penginapan->gender,
+                'nama' => $penginapan->nama,
+                'alamat' => $penginapan->alamat,
+                'latitude' => $penginapan->latitude,
+                'longitude' => $penginapan->longitude,
+                'telepon' => $penginapan->telepon,
+                'foto' => $foto->path,
+                'min' => $min,
+                'max' => $max
+            ];
+            $data->push($temp);
+        }
+        return response()->json(['penginapan' => $data]);
+    }
+
+    public function new()
+    {
         $penginapans = DB::table('penginapan')->take(10)->orderBy('created_at', 'desc')->get();
         $data = collect([]);
         foreach ($penginapans as $penginapan) {

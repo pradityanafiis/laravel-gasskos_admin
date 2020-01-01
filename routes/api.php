@@ -22,9 +22,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'v1'], function() {
     Route::group(['middleware' => 'jwt.verify'], function() {
         Route::get('penginapan', 'API\PenginapanController@index');
+        Route::get('penginapan/n', 'API\PenginapanController@new');
         Route::post('penginapan/g', 'API\PenginapanController@byGender');
         Route::post('penginapan/i', 'API\PenginapanController@byID');
         Route::post('penginapan/h', 'API\PenginapanController@byHarga');
+        Route::post('transaksi', 'API\TransaksiController@index');
+        Route::post('transaksi/i', 'API\TransaksiController@byID');
         Route::post('transaksi/store', 'API\TransaksiController@store');
     });
 
