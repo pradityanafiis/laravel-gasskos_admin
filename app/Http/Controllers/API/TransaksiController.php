@@ -82,4 +82,16 @@ class TransaksiController extends Controller
         Transaksi::create($data);
         return response()->json(['message' => "Berhasil memesan kamar"]);
     }
+
+    public function ulasan(Request $request)
+    {
+        $result = DB::table('transaksi')->where('id_transaksi', $request->id_transaksi)->update([
+            'rating' => 5,
+            'komentar' => $request->komentar
+        ]);
+        return response()->json([
+            'message' => "Berhasil membuat ulasan",
+            'result' => $result
+        ]);
+    }
 }

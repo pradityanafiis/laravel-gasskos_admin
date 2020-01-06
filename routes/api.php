@@ -29,6 +29,7 @@ Route::group(['prefix' => 'v1'], function() {
         Route::post('transaksi', 'API\TransaksiController@index');
         Route::post('transaksi/i', 'API\TransaksiController@byID');
         Route::post('transaksi/store', 'API\TransaksiController@store');
+        Route::post('transaksi/ulasan', 'API\TransaksiController@ulasan');
     });
 
     Route::group(['prefix' => 'auth'], function() {
